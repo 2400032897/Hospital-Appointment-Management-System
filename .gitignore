@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+dist/
+target/
+*.class
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment/Secret
+.env
+.env.local
+
+# Uploads
+uploads/
