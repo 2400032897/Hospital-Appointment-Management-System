@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { authApi } from '../../api'
 import { useAuth } from '../../context/AuthContext'
+import { FiMail, FiLock, FiUser, FiShield, FiChevronRight, FiActivity } from 'react-icons/fi'
 
 export default function Login() {
   const { login } = useAuth()
@@ -30,94 +31,99 @@ export default function Login() {
 
   return (
     <div className="auth-layout">
-      <div style={{ width: '100%', maxWidth: 480 }}>
-        {/* Card */}
-        <div style={{
-          background: 'white', borderRadius: 'var(--radius-xl)',
-          boxShadow: 'var(--shadow-xl)', overflow: 'hidden'
-        }}>
-          {/* Header */}
-          <div style={{
-            background: 'linear-gradient(135deg, #1e3a8a, #2563eb)',
-            padding: '2.5rem 2rem',
-            textAlign: 'center'
-          }}>
+      {/* Decorative Bubbles */}
+      <div className="floating-bubbles">
+        <div className="bubble" style={{ width: 100, height: 100, top: '10%', left: '10%', animationDelay: '0s' }}></div>
+        <div className="bubble" style={{ width: 150, height: 150, bottom: '15%', right: '15%', animationDelay: '2s' }}></div>
+        <div className="bubble" style={{ width: 80, height: 80, top: '40%', right: '5%', animationDelay: '4s' }}></div>
+      </div>
+
+      <div style={{ width: '100%', maxWidth: 460, position: 'relative', zIndex: 1 }} className="scale-in">
+        {/* Glass Card */}
+        <div className="glass-card overflow-hidden">
+          {/* Enhanced Header */}
+          <div className="auth-header">
             <div style={{
-              width: 72, height: 72,
-              background: 'rgba(255,255,255,0.15)',
-              borderRadius: 18,
+              width: 80, height: 80,
+              background: 'rgba(255,255,255,0.2)',
+              backdropFilter: 'blur(8px)',
+              borderRadius: 22,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '2.2rem', margin: '0 auto 1rem'
-            }}>🏥</div>
-            <h1 style={{ color: 'white', fontSize: '1.75rem', fontFamily: 'Outfit', fontWeight: 800, marginBottom: 4 }}>
+              fontSize: '2.5rem', margin: '0 auto 1.5rem',
+              color: 'white',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
+            }}>
+              <FiActivity />
+            </div>
+            <h1 style={{ color: 'white', fontSize: '2rem', fontFamily: 'Outfit', fontWeight: 800, marginBottom: 4, letterSpacing: '-0.5px' }}>
               MediCare
             </h1>
-            <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.9rem' }}>
-              Hospital Appointment System
+            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem', fontWeight: 500 }}>
+              Your Health, Our Priority
             </p>
           </div>
 
-          {/* Form */}
-          <div style={{ padding: '2rem' }}>
-            <h2 style={{ marginBottom: '1.5rem', fontSize: '1.25rem', textAlign: 'center' }}>
-              Sign In to Your Account
+          {/* Form Content */}
+          <div style={{ padding: '2.5rem 2rem' }}>
+            <h2 style={{ marginBottom: '2rem', fontSize: '1.5rem', textAlign: 'center', fontWeight: 700, color: 'var(--gray-800)' }}>
+              Sign In
             </h2>
 
-            {/* Role selector */}
-            <div style={{
-              display: 'flex', gap: 8, marginBottom: '1.5rem',
-              background: 'var(--gray-100)', borderRadius: 'var(--radius)', padding: 4
-            }}>
-              {['PATIENT', 'DOCTOR', 'ADMIN'].map(r => (
+            {/* Custom Role Selector */}
+            <div className="role-tab-container">
+              {[
+                { id: 'PATIENT', label: 'Patient', icon: <FiUser /> },
+                { id: 'DOCTOR', label: 'Doctor', icon: <FiActivity /> },
+                { id: 'ADMIN', label: 'Admin', icon: <FiShield /> }
+              ].map(r => (
                 <button
-                  key={r}
+                  key={r.id}
                   type="button"
-                  onClick={() => setForm({ ...form, role: r })}
-                  style={{
-                    flex: 1, padding: '0.5rem',
-                    borderRadius: 'var(--radius-sm)',
-                    border: 'none', cursor: 'pointer',
-                    fontSize: '0.8rem', fontWeight: 600,
-                    background: form.role === r ? 'white' : 'transparent',
-                    color: form.role === r ? 'var(--primary)' : 'var(--text-secondary)',
-                    boxShadow: form.role === r ? 'var(--shadow-sm)' : 'none',
-                    transition: 'var(--transition)'
-                  }}
+                  onClick={() => setForm({ ...form, role: r.id })}
+                  className={`role-tab ${form.role === r.id ? 'active' : ''}`}
                 >
-                  {r === 'PATIENT' ? '🙋 Patient' : r === 'DOCTOR' ? '🩺 Doctor' : '🔑 Admin'}
+                  {r.icon}
+                  <span>{r.label}</span>
                 </button>
               ))}
             </div>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="slide-up" style={{ animationDelay: '0.2s' }}>
               <div className="form-group">
                 <label className="form-label">Email Address</label>
-                <input
-                  id="login-email"
-                  type="email"
-                  className="form-control"
-                  placeholder="your@email.com"
-                  value={form.email}
-                  onChange={e => setForm({ ...form, email: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Password</label>
-                <input
-                  id="login-password"
-                  type="password"
-                  className="form-control"
-                  placeholder="••••••••"
-                  value={form.password}
-                  onChange={e => setForm({ ...form, password: e.target.value })}
-                  required
-                />
+                <div className="input-with-icon">
+                  <FiMail className="icon" />
+                  <input
+                    id="login-email"
+                    type="email"
+                    className="form-control"
+                    placeholder="name@example.com"
+                    value={form.email}
+                    onChange={e => setForm({ ...form, email: e.target.value })}
+                    required
+                  />
+                </div>
               </div>
 
-              <div style={{ textAlign: 'right', marginBottom: '1.25rem' }}>
+              <div className="form-group">
+                <label className="form-label">Password</label>
+                <div className="input-with-icon">
+                  <FiLock className="icon" />
+                  <input
+                    id="login-password"
+                    type="password"
+                    className="form-control"
+                    placeholder="••••••••"
+                    value={form.password}
+                    onChange={e => setForm({ ...form, password: e.target.value })}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div style={{ textAlign: 'right', marginBottom: '1.5rem' }}>
                 <Link to="/forgot-password" style={{
-                  fontSize: '0.85rem', color: 'var(--primary)', textDecoration: 'none', fontWeight: 500
+                  fontSize: '0.85rem', color: 'var(--primary)', textDecoration: 'none', fontWeight: 600
                 }}>
                   Forgot Password?
                 </Link>
@@ -126,24 +132,32 @@ export default function Login() {
               <button
                 id="login-submit"
                 type="submit"
-                className="btn btn-primary btn-full btn-lg"
+                className="btn btn-primary btn-full btn-lg hover-lift"
                 disabled={loading}
+                style={{ height: 56, borderRadius: 16 }}
               >
-                {loading ? '⏳ Signing in...' : '🔐 Sign In'}
+                {loading ? '⏳ Processing...' : (
+                  <>
+                    <span>Sign In to Account</span>
+                    <FiChevronRight style={{ fontSize: '1.2rem' }} />
+                  </>
+                )}
               </button>
             </form>
 
-            <p style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
-              Don't have an account?{' '}
-              <Link to="/register" style={{ color: 'var(--primary)', fontWeight: 600, textDecoration: 'none' }}>
-                Register as Patient
-              </Link>
-            </p>
+            <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                New to MediCare?{' '}
+                <Link to="/register" style={{ color: 'var(--primary)', fontWeight: 700, textDecoration: 'none' }}>
+                  Create an Account
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
 
-        <p style={{ textAlign: 'center', marginTop: '1rem', fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)' }}>
-          © 2025 MediCare Hospital System
+        <p style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>
+          © 2025 MediCare Global • Secure Access
         </p>
       </div>
     </div>
