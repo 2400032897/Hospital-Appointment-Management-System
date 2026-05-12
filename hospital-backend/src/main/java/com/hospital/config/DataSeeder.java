@@ -36,7 +36,7 @@ public class DataSeeder implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        String defaultPassword = "Rahul@2314";
+        String defaultPassword = "Rahul2314@";
         String encodedPassword = passwordEncoder.encode(defaultPassword);
         // 1. Seed Admin
         String adminEmail = "admin@hospital.com";

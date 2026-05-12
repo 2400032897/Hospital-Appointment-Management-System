@@ -1,0 +1,9 @@
+{
+  "name": "hospital-appointment-system",
+  "version": "1.0.0",
+  "description": "Root package.json to forward commands to the frontend",
+  "scripts": {
+    "dev": "cd hospital-frontend && npm run dev",
+    "install:frontend": "cd hospital-frontend && npm install"
+  }
+}
