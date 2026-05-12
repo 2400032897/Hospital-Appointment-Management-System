@@ -7,6 +7,7 @@ MediCare is a full-stack Hospital Appointment Management System that enables pat
 
 ## 📁 Project Structure
 
+```text
 appoinment1/
 ├── hospital-backend/
 │   ├── Dockerfile
@@ -27,7 +28,7 @@ appoinment1/
 │   │       └── application.properties
 │   └── uploads/
 │       └── medical-reports/
-│
+
 └── hospital-frontend/
     ├── index.html
     ├── package.json
@@ -46,6 +47,7 @@ appoinment1/
             ├── auth/
             ├── doctor/
             └── patient/
+```
 
 ## ✨ Features
 - Patient Registration and Login
