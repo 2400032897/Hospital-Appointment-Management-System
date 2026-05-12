@@ -30,8 +30,9 @@ MediCare is a full-stack Hospital Appointment Management System that enables pat
 
 ### Deployment
 - Frontend: Vercel
-- Backend: Railway
-
+- Backend: Render
+- Database: Aiven MySQL
+  
 ## 📂 GitHub Repository
 https://github.com/your-username/Hospital-Appointment-Management-System
 
