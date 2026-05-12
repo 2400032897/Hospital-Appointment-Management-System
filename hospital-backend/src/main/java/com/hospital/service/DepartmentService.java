@@ -12,11 +12,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
     private final DoctorRepository doctorRepository;
+
+    public DepartmentService(DepartmentRepository departmentRepository, DoctorRepository doctorRepository) {
+        this.departmentRepository = departmentRepository;
+        this.doctorRepository = doctorRepository;
+    }
 
     public List<DepartmentDTO> getAllDepartments() {
         return departmentRepository.findAll().stream()

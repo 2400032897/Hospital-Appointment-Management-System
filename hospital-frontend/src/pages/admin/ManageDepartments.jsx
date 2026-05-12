@@ -4,6 +4,8 @@ import Sidebar from '../../components/Sidebar'
 import Navbar from '../../components/Navbar'
 import Loader from '../../components/Loader'
 import { departmentApi } from '../../api'
+import * as FiIcons from 'react-icons/fi'
+import { FiPlus, FiEdit2, FiTrash2 } from 'react-icons/fi'
 
 export default function ManageDepartments() {
   const [departments, setDepartments] = useState([])
@@ -13,6 +15,16 @@ export default function ManageDepartments() {
   const [form, setForm] = useState({ name: '', description: '', icon: '' })
 
   const ICONS = ['🏥','🫀','🧠','🦴','👁️','🦷','🫁','👶','🩺','💊','🔬','🩻']
+
+  const renderIcon = (iconName) => {
+    if (!iconName) return <FiIcons.FiActivity />
+    // If it's an emoji (single char or surrogate pair)
+    if (iconName.length <= 2) return <span>{iconName}</span>
+    
+    // If it's a Fi icon name
+    const IconComponent = FiIcons[iconName]
+    return IconComponent ? <IconComponent /> : <FiIcons.FiActivity />
+  }
 
   const fetch = () => {
     setLoading(true)
@@ -53,47 +65,67 @@ export default function ManageDepartments() {
       <div className="main-content">
         <Navbar title="Manage Departments" />
         <div className="page-content">
-          <div className="flex justify-between items-center mb-4">
+          <div className="page-header">
             <div>
               <h1 className="page-title">Departments</h1>
-              <p className="page-subtitle">{departments.length} departments</p>
+              <p className="page-subtitle">Configure hospital departments and specialties</p>
             </div>
-            <button className="btn btn-primary" onClick={openAdd}>+ Add Department</button>
+            <button className="btn btn-primary btn-lg" onClick={openAdd}>
+              <FiPlus /> Add Department
+            </button>
           </div>
 
           {loading ? <Loader /> : (
-            <div className="grid grid-3">
-              {departments.map(dept => (
-                <div key={dept.id} className="card">
-                  <div className="card-body">
-                    <div style={{ display:'flex', alignItems:'center', gap:'1rem', marginBottom:'1rem' }}>
-                      <div style={{
-                        width:52, height:52, background:'var(--primary-100)',
-                        borderRadius:'var(--radius)', display:'flex', alignItems:'center',
-                        justifyContent:'center', fontSize:'1.5rem', flexShrink:0
-                      }}>{dept.icon || '🏥'}</div>
-                      <div>
-                        <div style={{ fontWeight:700, fontSize:'1rem' }}>{dept.name}</div>
-                        <div style={{ fontSize:'0.8rem', color:'var(--text-muted)' }}>{dept.doctorCount} doctor(s)</div>
+            <>
+              <div style={{ marginBottom: '1.5rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
+                {departments.length} Active Departments
+              </div>
+              <div className="grid grid-3">
+                {departments.map(dept => (
+                  <div key={dept.id} className="card hover-lift">
+                    <div className="card-body">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="icon-box" style={{ background: 'var(--primary-100)', color: 'var(--primary)' }}>
+                          {renderIcon(dept.icon)}
+                        </div>
+                        <div>
+                          <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 700 }}>{dept.name}</h3>
+                          <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>
+                            {dept.doctorCount} Professional Doctor(s)
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <p style={{ 
+                        fontSize: '0.9rem', 
+                        color: 'var(--text-secondary)', 
+                        minHeight: '4.5rem',
+                        lineHeight: '1.6',
+                        marginBottom: '1.5rem'
+                      }}>
+                        {dept.description || 'No description provided for this department.'}
+                      </p>
+
+                      <div className="flex gap-2">
+                        <button onClick={() => openEdit(dept)} className="btn btn-secondary" style={{ flex: 1 }}>
+                          <FiEdit2 /> Edit
+                        </button>
+                        <button onClick={() => handleDelete(dept.id)} className="btn btn-danger" style={{ width: '48px', padding: 0, justifyContent: 'center' }}>
+                          <FiTrash2 />
+                        </button>
                       </div>
                     </div>
-                    {dept.description && (
-                      <p style={{ fontSize:'0.85rem', color:'var(--text-secondary)', marginBottom:'1rem' }}>{dept.description}</p>
-                    )}
-                    <div style={{ display:'flex', gap:'0.5rem' }}>
-                      <button onClick={() => openEdit(dept)} className="btn btn-secondary btn-sm" style={{ flex:1 }}>✏️ Edit</button>
-                      <button onClick={() => handleDelete(dept.id)} className="btn btn-danger btn-sm">🗑️</button>
-                    </div>
                   </div>
-                </div>
-              ))}
-              {departments.length === 0 && (
-                <div className="empty-state" style={{ gridColumn:'1/-1' }}>
-                  <div className="empty-state-icon">🏥</div>
-                  <div className="empty-state-title">No departments yet</div>
-                </div>
-              )}
-            </div>
+                ))}
+                {departments.length === 0 && (
+                  <div className="empty-state" style={{ gridColumn: '1/-1' }}>
+                    <div className="empty-state-icon">🏥</div>
+                    <div className="empty-state-title">No departments found</div>
+                    <p>Start by adding a new department to the system.</p>
+                  </div>
+                )}
+              </div>
+            </>
           )}
         </div>
       </div>

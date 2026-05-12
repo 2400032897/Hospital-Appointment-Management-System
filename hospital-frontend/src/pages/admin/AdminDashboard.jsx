@@ -40,22 +40,50 @@ export default function AdminDashboard() {
       <div className="main-content">
         <Navbar title="Admin Dashboard" />
         <div className="page-content">
-          {/* Header */}
-          <div style={{
-            background: 'linear-gradient(135deg, #1e1b4b, #7c3aed, #2563eb)',
-            borderRadius: 'var(--radius-lg)', padding: '2rem',
-            color: 'white', marginBottom: '2rem',
-            display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+          {/* Enhanced Premium Header */}
+          <div className="fade-in" style={{
+            background: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%)',
+            borderRadius: '24px',
+            padding: '2.5rem',
+            color: 'white',
+            marginBottom: '2.5rem',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            position: 'relative',
+            overflow: 'hidden',
+            boxShadow: '0 10px 30px rgba(15, 23, 42, 0.2)'
           }}>
-            <div>
-              <h1 style={{ fontSize: '1.75rem', fontFamily: 'Outfit', marginBottom: 6 }}>
-                Hospital Control Center 🏥
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <h1 style={{ 
+                fontSize: '2.25rem', 
+                fontWeight: 900, 
+                fontFamily: 'Outfit', 
+                marginBottom: '0.5rem',
+                letterSpacing: '-0.02em'
+              }}>
+                Control Center 🏥
               </h1>
-              <p style={{ color: 'rgba(255,255,255,0.8)' }}>
-                Complete overview of hospital operations
+              <p style={{ 
+                color: 'rgba(255,255,255,0.7)', 
+                fontSize: '1.1rem',
+                fontWeight: 500,
+                maxWidth: '500px'
+              }}>
+                Welcome back, Admin. Here is the real-time status of your hospital operations.
               </p>
             </div>
-            <div style={{ fontSize: '5rem', opacity: 0.3 }}>📊</div>
+            
+            {/* Animated Background Decoration */}
+            <div style={{ 
+              position: 'absolute', 
+              right: '-20px', 
+              bottom: '-20px', 
+              fontSize: '12rem', 
+              opacity: 0.1,
+              transform: 'rotate(-15deg)',
+              pointerEvents: 'none'
+            }}>📊</div>
           </div>
 
           {loading ? <Loader /> : (

@@ -5,6 +5,8 @@ import Navbar from '../../components/Navbar'
 import Loader from '../../components/Loader'
 import { adminApi, departmentApi } from '../../api'
 
+import { FiSearch, FiPlus, FiTrash2, FiUserCheck, FiUserX } from 'react-icons/fi'
+
 export default function ManageDoctors() {
   const [doctors, setDoctors] = useState([])
   const [departments, setDepartments] = useState([])
@@ -58,55 +60,97 @@ export default function ManageDoctors() {
         <Navbar title="Manage Doctors" />
         <div className="page-content">
           <div className="page-header">
-            <h1 className="page-title">Manage Doctors</h1>
-          </div>
-          <div className="flex justify-between items-center mb-4">
-            <div style={{ position: 'relative' }}>
-              <span style={{ position:'absolute', left:'0.875rem', top:'50%', transform:'translateY(-50%)' }}>🔍</span>
-              <input className="form-control" style={{ paddingLeft:'2.5rem', width:280 }}
-                placeholder="Search doctors..." value={search} onChange={e => setSearch(e.target.value)} />
+            <div>
+              <h1 className="page-title">Manage Doctors</h1>
+              <p className="page-subtitle">Add and configure healthcare professionals</p>
             </div>
-            <button className="btn btn-primary" onClick={() => setShowModal(true)}>+ Add Doctor</button>
+            <button className="btn btn-primary btn-lg" onClick={() => setShowModal(true)}>
+              <FiPlus /> Add Doctor
+            </button>
+          </div>
+
+          <div className="flex justify-between items-center mb-6">
+            <div className="search-bar" style={{ width: 320 }}>
+              <FiSearch className="search-icon" />
+              <input 
+                className="form-control" 
+                placeholder="Search by name or specialty..." 
+                value={search} 
+                onChange={e => setSearch(e.target.value)} 
+              />
+            </div>
+            <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-secondary)' }}>
+              Showing {filtered.length} Doctors
+            </div>
           </div>
 
           {loading ? <Loader /> : (
-            <div className="table-wrapper">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Name</th><th>Specialization</th><th>Department</th>
-                    <th>Experience</th><th>Status</th><th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filtered.map(d => (
-                    <tr key={d.id}>
-                      <td>
-                        <div style={{ fontWeight: 600 }}>Dr. {d.name}</div>
-                        <div style={{ fontSize:'0.8rem', color:'var(--text-muted)' }}>{d.email}</div>
-                      </td>
-                      <td>{d.specialization || '—'}</td>
-                      <td>{d.departmentName || '—'}</td>
-                      <td>{d.experience} yrs</td>
-                      <td>
-                        <span className={`badge ${d.active ? 'badge-approved' : 'badge-cancelled'}`}>
-                          {d.active ? 'Active' : 'Inactive'}
-                        </span>
-                      </td>
-                      <td>
-                        <div style={{ display:'flex', gap:'0.5rem' }}>
-                          <button onClick={() => handleToggle(d.id)} className={`btn btn-sm ${d.active ? 'btn-warning' : 'btn-success'}`}>
-                            {d.active ? 'Deactivate' : 'Activate'}
-                          </button>
-                          <button onClick={() => handleDelete(d.id)} className="btn btn-danger btn-sm">🗑️</button>
-                        </div>
-                      </td>
+            <div className="card">
+              <div className="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Doctor Info</th>
+                      <th>Specialization</th>
+                      <th>Department</th>
+                      <th>Experience</th>
+                      <th>Status</th>
+                      <th style={{ textAlign: 'right' }}>Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {filtered.map(d => (
+                      <tr key={d.id}>
+                        <td>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                            <div className="icon-box" style={{ width: 40, height: 40, background: 'var(--primary-50)', color: 'var(--primary)', fontSize: '1rem', fontWeight: 700 }}>
+                              {d.name?.charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                              <div style={{ fontWeight: 700, color: 'var(--text-primary)' }}>Dr. {d.name}</div>
+                              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{d.email}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>{d.specialization || '—'}</div>
+                        </td>
+                        <td>
+                          <span style={{ fontSize: '0.85rem', background: 'var(--gray-100)', padding: '2px 8px', borderRadius: 100 }}>
+                            {d.departmentName || '—'}
+                          </span>
+                        </td>
+                        <td><span style={{ fontWeight: 600 }}>{d.experience}</span> yrs</td>
+                        <td>
+                          <span className={`badge ${d.active ? 'badge-approved' : 'badge-rejected'}`}>
+                            {d.active ? 'Active' : 'Inactive'}
+                          </span>
+                        </td>
+                        <td>
+                          <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+                            <button 
+                              onClick={() => handleToggle(d.id)} 
+                              className={`btn btn-sm ${d.active ? 'btn-outline' : 'btn-success'}`}
+                              style={{ width: '100px' }}
+                            >
+                              {d.active ? <><FiUserX /> Disable</> : <><FiUserCheck /> Enable</>}
+                            </button>
+                            <button onClick={() => handleDelete(d.id)} className="btn btn-danger btn-sm" style={{ width: 36, padding: 0, justifyContent: 'center' }}>
+                              <FiTrash2 />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
               {filtered.length === 0 && (
-                <div className="empty-state"><div className="empty-state-icon">🩺</div><div className="empty-state-title">No doctors found</div></div>
+                <div className="empty-state">
+                  <div className="empty-state-icon">🩺</div>
+                  <div className="empty-state-title">No doctors matched your search</div>
+                  <p>Try searching with a different name or specialty.</p>
+                </div>
               )}
             </div>
           )}

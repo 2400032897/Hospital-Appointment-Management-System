@@ -23,11 +23,15 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/reports")
-@RequiredArgsConstructor
 public class MedicalReportController {
 
     private final MedicalReportRepository reportRepository;
     private final PatientRepository patientRepository;
+
+    public MedicalReportController(MedicalReportRepository reportRepository, PatientRepository patientRepository) {
+        this.reportRepository = reportRepository;
+        this.patientRepository = patientRepository;
+    }
 
     @Value("${file.upload-dir}")
     private String uploadDir;

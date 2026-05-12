@@ -86,6 +86,9 @@ public class AuthService {
     private LoginResponse loginAdmin(String email, String rawPassword) {
         Admin admin = adminRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Admin not found with email: " + email));
+        
+        System.out.println("DEBUG: Stored hash for " + email + ": " + admin.getPassword());
+        
         if (!passwordEncoder.matches(rawPassword, admin.getPassword())) {
             throw new IllegalArgumentException("Invalid credentials");
         }

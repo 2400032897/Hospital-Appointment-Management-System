@@ -13,10 +13,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/appointments")
-@RequiredArgsConstructor
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
+
+    public AppointmentController(AppointmentService appointmentService) {
+        this.appointmentService = appointmentService;
+    }
 
     @PostMapping("/book")
     public ResponseEntity<ApiResponse<AppointmentDTO>> bookAppointment(

@@ -33,12 +33,16 @@ export default function Register() {
   const set = (key) => (e) => setForm({ ...form, [key]: e.target.value })
 
   return (
-    <div className="auth-layout" style={{ padding: '2rem 1rem' }}>
-      <div style={{ width: '100%', maxWidth: 560 }}>
-        <div style={{
-          background: 'white', borderRadius: 'var(--radius-xl)',
-          boxShadow: 'var(--shadow-xl)', overflow: 'hidden'
-        }}>
+    <div className="auth-layout">
+      {/* Premium Mesh Background */}
+      <div className="mesh-bg">
+        <div className="mesh-gradient"></div>
+        <div className="floating-circle" style={{ width: '400px', height: '400px', top: '-10%', left: '-5%' }}></div>
+        <div className="floating-circle" style={{ width: '300px', height: '300px', bottom: '10%', right: '5%', animationDelay: '2s' }}></div>
+      </div>
+
+      <div style={{ width: '100%', maxWidth: 560, position: 'relative', zIndex: 1 }} className="scale-in">
+        <div className="auth-card">
           {/* Header */}
           <div style={{
             background: 'linear-gradient(135deg, #065f46, #10b981)',

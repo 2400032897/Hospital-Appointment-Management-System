@@ -12,10 +12,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/patients")
-@RequiredArgsConstructor
 public class PatientController {
 
     private final PatientService patientService;
+
+    public PatientController(PatientService patientService) {
+        this.patientService = patientService;
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<PatientDTO>> getPatient(@PathVariable Long id) {

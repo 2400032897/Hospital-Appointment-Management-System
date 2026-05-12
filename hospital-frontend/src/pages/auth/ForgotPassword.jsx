@@ -25,11 +25,14 @@ export default function ForgotPassword() {
 
   return (
     <div className="auth-layout">
-      <div style={{ width: '100%', maxWidth: 440 }}>
-        <div style={{
-          background: 'white', borderRadius: 'var(--radius-xl)',
-          boxShadow: 'var(--shadow-xl)', padding: '2.5rem'
-        }}>
+      {/* Premium Mesh Background */}
+      <div className="mesh-bg">
+        <div className="mesh-gradient"></div>
+        <div className="floating-circle" style={{ width: '300px', height: '300px', top: '-5%', right: '-5%' }}></div>
+      </div>
+
+      <div style={{ width: '100%', maxWidth: 440, position: 'relative', zIndex: 1 }} className="scale-in">
+        <div className="auth-card" style={{ padding: '2.5rem' }}>
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
             <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>🔒</div>
             <h1 style={{ fontSize: '1.5rem', fontFamily: 'Outfit', fontWeight: 800 }}>Forgot Password</h1>
