@@ -59,7 +59,7 @@ public class MedicalReport {
         private String fileType;
         private String filePath;
         private Long fileSize;
-        private String description;
+        private String description ;
 
         public MedicalReportBuilder id(Long id) { this.id = id; return this; }
         public MedicalReportBuilder patient(Patient patient) { this.patient = patient; return this; }
